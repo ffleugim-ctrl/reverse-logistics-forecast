@@ -1,4 +1,3 @@
-# reverse-logistics-forecast
 # Reverse Logistics Forecast
 
 Projeto de previsão de demanda (série temporal) aplicado ao contexto de
@@ -37,6 +36,24 @@ genéricas de mercado.
 
 ## Resultados
 
+### Série gerada (Etapa 1)
+
+![Visão geral da demanda simulada](demanda_dv_visao_geral.png)
+
+Picos de Natal→janeiro claramente visíveis e crescendo de 2025 para
+2026 (efeito de tendência), além do padrão semanal de segunda-feira
+como pico e domingo como vale.
+
+### Decomposição e validação estatística (Etapa 2)
+
+![Decomposição semanal](decomposicao_semanal.png)
+
+A decomposição automática (sem qualquer conhecimento prévio da fórmula
+usada para gerar os dados) confirmou o padrão semanal calibrado
+manualmente — validação estatística independente do modelo de negócio.
+
+![ACF e PACF](acf_pacf.png)
+
 **Decomposição estatística (Etapa 2):** a decomposição semanal via
 `seasonal_decompose` confirmou, de forma independente, o padrão semanal
 calibrado manualmente a partir da vivência de operação (diferença menor
@@ -51,6 +68,18 @@ primeiros 516 dias e testado nos últimos 30, obteve:
 
 - **MAE:** ~2.212 peças/dia
 - **MAPE:** ~13,0%
+
+![Previsão Prophet](previsao_prophet.png)
+
+![Componentes identificados pelo Prophet](componentes_prophet.png)
+
+O Prophet identificou sozinho, sem qualquer informação prévia sobre a
+fórmula usada na geração dos dados, os mesmos 4 picos sazonais
+definidos manualmente (Dia das Mães, Copa, Dia das Crianças e
+Natal/janeiro) — reforçando a validade do modelo de negócio construído
+na Etapa 1.
+
+![Previsto vs. Real nos últimos 30 dias](previsto_vs_real.png)
 
 O período de teste coincidiu com o pico de devolução da Copa do Mundo
 2026 — um evento não recorrente (ocorre a cada 4 anos), o que
